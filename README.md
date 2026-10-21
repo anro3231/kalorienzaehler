@@ -27,3 +27,12 @@
 ## Version 4
 - Unter jeder Mahlzeit stehen Schnellwahlknöpfe +50, +100 und +200 kcal.
 - Ein Tipp addiert den Wert zur bestehenden Mahlzeit und speichert automatisch.
+
+## Version 5
+- Kleine, dezente Schnellwahlknöpfe −200, −100, −50, +50, +100 und +200 kcal.
+- Kalorien-Eingabefeld ist größer und deutlicher hervorgehoben.
+- Minusknöpfe reduzieren einen Wert nie unter 0 kcal.
+
+
+## Version 6
+Beide Diagramme zeigen alle 7 bzw. 30 Tage ohne horizontales Scrollen. Der Durchschnitt wird über alle Kalendertage des Zeitraums berechnet (Tage ohne Eintrag zählen als 0 kcal).
