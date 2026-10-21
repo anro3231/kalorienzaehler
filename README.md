@@ -1,3 +1,5 @@
+Version 14: Mahlzeitenname und Kalorieneingabe beginnen auf derselben Höhe; Plus/Minus links unter dem Namen, direkt neben dem Eingabefeld.
+
 # Kalorientagebuch für iPhone (GitHub Pages)
 
 ## Veröffentlichen
@@ -45,3 +47,22 @@ Lokale Sicherung und Wiederherstellung direkt auf der Startseite sowie in der St
 - Die untere Navigation liegt nun außerhalb des scrollbaren Inhalts und bleibt stabil sichtbar, auch beim Scrollen auf iPhones.
 - Neues helles Farbschema in Salbei/Mint mit Lavendel als Akzent für die Ziellinie.
 - In der 30-Tage-Ansicht nur Tageszahlen (keine Wochentage); in der 7-Tage-Ansicht weiterhin Wochentage und Datum.
+
+## Version 9
+Kalorien-Eingabefeld kompakt direkt unter der Mahlzeitenbezeichnung. Plus- und Minus-Knöpfe darunter rechtsbündig. Alle bisherigen Funktionen und gespeicherten Daten bleiben erhalten.
+
+
+Version 10: Schnellwahlknöpfe rechts in derselben Zeile wie die Mahlzeitenbezeichnung; Kalorienfeld darunter.
+
+## Version 11
+Die Schnellbuttons stehen in zwei Zeilen rechts neben dem Mahlzeitennamen: oben +50, +100, +200 und direkt darunter −50, −100, −200.
+
+## Version 12
+Schnellbuttons direkt unter der Mahlzeitenbezeichnung links; Kalorien-Eingabefeld rechts in derselben Zeile.
+
+
+## Version 13
+Die Plus- und Minus-Schnellwahltasten stehen unmittelbar links neben dem Kalorienfeld. Beide Tastenreihen zusammen sind exakt so hoch wie das Eingabefeld (66 px).
+
+
+Version 15: Schnellwahl-Tasten und Kalorienfeld beginnen auf derselben Höhe wie die Mahlzeitenbezeichnung; Buttons links direkt neben dem Eingabefeld.
