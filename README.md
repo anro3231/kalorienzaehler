@@ -36,3 +36,6 @@
 
 ## Version 6
 Beide Diagramme zeigen alle 7 bzw. 30 Tage ohne horizontales Scrollen. Der Durchschnitt wird über alle Kalendertage des Zeitraums berechnet (Tage ohne Eintrag zählen als 0 kcal).
+
+## Version 7
+Lokale Sicherung und Wiederherstellung direkt auf der Startseite sowie in der Statistik. Die Sicherungsdatei enthält das Kalorienziel und alle gespeicherten Tage. Beim Import wird die Datei geprüft und vor dem Überschreiben um Bestätigung gebeten.
