@@ -1,3 +1,7 @@
+# Version 16
+
+Kalorien-Eingabefeld schmaler (82 px, auf schmalen Displays 76 px) und Schrift kleiner (16 px). Restliches Layout unverändert.
+
 Version 14: Mahlzeitenname und Kalorieneingabe beginnen auf derselben Höhe; Plus/Minus links unter dem Namen, direkt neben dem Eingabefeld.
 
 # Kalorientagebuch für iPhone (GitHub Pages)
@@ -66,3 +70,7 @@ Die Plus- und Minus-Schnellwahltasten stehen unmittelbar links neben dem Kalorie
 
 
 Version 15: Schnellwahl-Tasten und Kalorienfeld beginnen auf derselben Höhe wie die Mahlzeitenbezeichnung; Buttons links direkt neben dem Eingabefeld.
+
+
+## Version 17
+Der Durchschnitt der letzten 7 oder 30 Tage erscheint in einer großen farbigen Karte: grün bei Durchschnitt ≤ Tagesziel, rot bei Überschreitung. Nicht erfasste Tage zählen weiterhin mit 0 kcal.
