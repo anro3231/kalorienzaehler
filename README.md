@@ -12,10 +12,18 @@
 - Die Eingaben werden im lokalen Browser-Speicher gespeichert, nicht in GitHub. Sie synchronisieren sich **nicht** zwischen Geräten.
 - Im Statistik-Tab können Daten als JSON exportiert und wieder importiert werden.
 - Leere Tage werden als „kein Eintrag“ markiert und nicht als erfolgreiche Zieltage gezählt.
-- Die Statistik bezieht sich auf das im Tages-Tab ausgewählte Datum und die vorherigen 6 bzw. 29 Tage.
+- Die Statistik zeigt immer die letzten 7 bzw. 30 Kalendertage einschließlich heute – unabhängig vom ausgewählten Bearbeitungsdatum.
 
 ## Version 2
 - Helles Design und horizontale Ziel-Linie in der Statistik.
 - Kalorienzahlen direkt über den Balken.
 - Die 30-Tage-Ansicht ist horizontal scrollbar (auf dem iPhone wischen).
 - Beim Ersetzen der Dateien bleiben bestehende Einträge im selben Browser erhalten.
+
+## Version 3
+- Der heutige Tag ist immer der letzte Balken in beiden Statistiken.
+- Jeder Balken zeigt den Wochentag und das Datum; heute ist zusätzlich hervorgehoben.
+
+## Version 4
+- Unter jeder Mahlzeit stehen Schnellwahlknöpfe +50, +100 und +200 kcal.
+- Ein Tipp addiert den Wert zur bestehenden Mahlzeit und speichert automatisch.
