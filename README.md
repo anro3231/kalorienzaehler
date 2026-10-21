@@ -13,3 +13,9 @@
 - Im Statistik-Tab können Daten als JSON exportiert und wieder importiert werden.
 - Leere Tage werden als „kein Eintrag“ markiert und nicht als erfolgreiche Zieltage gezählt.
 - Die Statistik bezieht sich auf das im Tages-Tab ausgewählte Datum und die vorherigen 6 bzw. 29 Tage.
+
+## Version 2
+- Helles Design und horizontale Ziel-Linie in der Statistik.
+- Kalorienzahlen direkt über den Balken.
+- Die 30-Tage-Ansicht ist horizontal scrollbar (auf dem iPhone wischen).
+- Beim Ersetzen der Dateien bleiben bestehende Einträge im selben Browser erhalten.
