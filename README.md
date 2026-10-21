@@ -39,3 +39,9 @@ Beide Diagramme zeigen alle 7 bzw. 30 Tage ohne horizontales Scrollen. Der Durch
 
 ## Version 7
 Lokale Sicherung und Wiederherstellung direkt auf der Startseite sowie in der Statistik. Die Sicherungsdatei enthält das Kalorienziel und alle gespeicherten Tage. Beim Import wird die Datei geprüft und vor dem Überschreiben um Bestätigung gebeten.
+
+
+## Version 8
+- Die untere Navigation liegt nun außerhalb des scrollbaren Inhalts und bleibt stabil sichtbar, auch beim Scrollen auf iPhones.
+- Neues helles Farbschema in Salbei/Mint mit Lavendel als Akzent für die Ziellinie.
+- In der 30-Tage-Ansicht nur Tageszahlen (keine Wochentage); in der 7-Tage-Ansicht weiterhin Wochentage und Datum.
