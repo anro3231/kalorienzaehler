@@ -74,3 +74,7 @@ Version 15: Schnellwahl-Tasten und Kalorienfeld beginnen auf derselben Höhe wie
 
 ## Version 17
 Der Durchschnitt der letzten 7 oder 30 Tage erscheint in einer großen farbigen Karte: grün bei Durchschnitt ≤ Tagesziel, rot bei Überschreitung. Nicht erfasste Tage zählen weiterhin mit 0 kcal.
+
+
+## Version 18 – Zoom
+Die Ansicht ist auf dem iPhone auf 100 % festgelegt (kein Pinch-Zoom). Eingabefelder verwenden mindestens 16 px Schriftgröße, damit Safari beim Fokussieren nicht automatisch hineinzoomt. Normales vertikales Scrollen bleibt möglich. Hinweis: Einige Browser- und Bedienungshilfen können Zoom-Einstellungen aus Gründen der Barrierefreiheit überschreiben.
