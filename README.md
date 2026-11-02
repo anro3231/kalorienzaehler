@@ -1,3 +1,9 @@
+# Version 20 – gestapelte Mahlzeiten im Diagramm
+
+In der 7- und 30-Tage-Ansicht zeigt jede Säule die vier Mahlzeiten als farbige Abschnitte (Frühstück, Mittagessen, Abendessen, Snacks). Die Gesamtkalorien stehen weiterhin oberhalb der Säule. Die Ziellinie, Tagesbeschriftungen, Durchschnitte und Tagesziele bleiben erhalten. Die Farben werden unter dem Diagramm erklärt.
+
+**Keine Veröffentlichung auf GitHub vorgenommen.** Teste die Dateien lokal oder in einer Vorschau und veröffentliche sie erst nach deiner Freigabe.
+
 # Version 16
 
 Kalorien-Eingabefeld schmaler (82 px, auf schmalen Displays 76 px) und Schrift kleiner (16 px). Restliches Layout unverändert.
@@ -78,3 +84,12 @@ Der Durchschnitt der letzten 7 oder 30 Tage erscheint in einer großen farbigen 
 
 ## Version 18 – Zoom
 Die Ansicht ist auf dem iPhone auf 100 % festgelegt (kein Pinch-Zoom). Eingabefelder verwenden mindestens 16 px Schriftgröße, damit Safari beim Fokussieren nicht automatisch hineinzoomt. Normales vertikales Scrollen bleibt möglich. Hinweis: Einige Browser- und Bedienungshilfen können Zoom-Einstellungen aus Gründen der Barrierefreiheit überschreiben.
+
+
+## Version 19 – Tagesziele
+
+- Drei tägliche Häkchen: Kein Softdrink, Keine Süßigkeiten, Kein Kaffee.
+- Auswertung in der Statistik für die letzten 7 oder 30 Tage mit Anzahl und Prozent.
+- Häkchen sind pro Datum gespeichert und Bestandteil des JSON-Backups.
+- Tage ohne Häkchen zählen nicht als Erfolg.
+- Version 20 ist im GitHub-Repository veröffentlicht.
