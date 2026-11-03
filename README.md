@@ -1,5 +1,7 @@
-# Kalorien-App V21 – aufgeräumte Oberfläche
+# Kalorien-App V22
 
-Weniger Infotexte auf Heute und Statistik. Mahlzeiten, Kalorienziel, Tageshäkchen, Diagramme und lokales Backup bleiben erhalten. Das redundante zweite Backup-Menü wurde entfernt.
+Größere Diagramme für 7 und 30 Tage, übersichtlichere Balken und Kalorienbeschriftungen ohne Legende. Kalorienziel-Linie, farbliche Mahlzeitenaufteilung, Durchschnitt, Tageshäkchen und lokale Sicherung bleiben erhalten.
 
-Die App läuft über GitHub Pages. Daten bleiben lokal im Browser gespeichert.
+GitHub Pages: https://anro3231.github.io/kalorienzaehler/
+
+Die Einträge werden lokal im Browser des Geräts gespeichert.
