@@ -1,7 +1,7 @@
-# Kalorien-App V22
+# Kalorien-App V23
 
-Größere Diagramme für 7 und 30 Tage, übersichtlichere Balken und Kalorienbeschriftungen ohne Legende. Kalorienziel-Linie, farbliche Mahlzeitenaufteilung, Durchschnitt, Tageshäkchen und lokale Sicherung bleiben erhalten.
+Neu: Tagesziele frei benennen, hinzufügen sowie ein- und ausblenden. Die Statistik zeigt weiterhin den Verlauf der aktivierten Tagesziele. KI-Gerichtsuche mit geschätzter Kalorienzahl und optionaler Übernahme in eine Mahlzeit; benötigt einen eigenen Gemini-API-Schlüssel in der App. Kein API-Schlüssel ist im öffentlichen Code enthalten.
 
-GitHub Pages: https://anro3231.github.io/kalorienzaehler/
+Die App wird über GitHub Pages bereitgestellt: https://anro3231.github.io/kalorienzaehler/
 
-Die Einträge werden lokal im Browser des Geräts gespeichert.
+Alle Kalorien- und Häkcheneinträge bleiben lokal auf dem Gerät gespeichert. Export und Import der Datensicherung sind weiterhin möglich. KI-Kalorienschätzungen sind Näherungswerte.
