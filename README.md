@@ -1,7 +1,15 @@
-# Kalorien-App V23
+# Kalorien-App V24
 
-Neu: Tagesziele frei benennen, hinzufügen sowie ein- und ausblenden. Die Statistik zeigt weiterhin den Verlauf der aktivierten Tagesziele. KI-Gerichtsuche mit geschätzter Kalorienzahl und optionaler Übernahme in eine Mahlzeit; benötigt einen eigenen Gemini-API-Schlüssel in der App. Kein API-Schlüssel ist im öffentlichen Code enthalten.
+Kalorienzähler für iPhone über GitHub Pages.
 
-Die App wird über GitHub Pages bereitgestellt: https://anro3231.github.io/kalorienzaehler/
+- Tageskalorien für Frühstück, Mittagessen, Abendessen und Snacks
+- 7- und 30-Tage-Diagramme mit Kalorienziel und Durchschnitt
+- Konfigurierbare Tagesziele mit Statistik
+- Lokale Sicherung und Wiederherstellung
+- Dezente Versionsnummer v24 in der Kopfzeile
 
-Alle Kalorien- und Häkcheneinträge bleiben lokal auf dem Gerät gespeichert. Export und Import der Datensicherung sind weiterhin möglich. KI-Kalorienschätzungen sind Näherungswerte.
+Die KI-Gerichtsuche und API-Schlüssel-Eingabe wurden vollständig entfernt.
+
+App: https://anro3231.github.io/kalorienzaehler/
+
+Die persönlichen Daten werden lokal im Browser gespeichert.
