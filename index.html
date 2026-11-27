@@ -74,6 +74,11 @@ input,select,textarea{font-size:16px}
 .compare-numbers .burn-value strong{white-space:nowrap}
 .compare-numbers .burn-value button{flex:0 0 22px;width:22px;height:22px;padding:0;display:inline-flex;align-items:center;justify-content:center}
 @media(max-width:370px){.compare-numbers{padding:9px 10px;column-gap:5px;font-size:12px}.compare-numbers strong{font-size:17px}.compare-numbers .burn-value button{flex-basis:20px;width:20px;height:20px}}
+
+/* Hochformat-Diagramme: sieben Tage sichtbar, weitere Tage horizontal wischbar */
+.chart-scroll{width:100%;height:265px;max-height:none;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x}
+#history .card:first-child .chart-scroll,#history .card:nth-of-type(2) .chart-scroll{height:265px;max-height:none;overflow-x:auto;overflow-y:hidden}
+.chart{display:block;height:265px;max-width:none}
 </style></head><body><main><header><div><h1>Kalorien</h1></div><div style="display:flex;align-items:center;gap:9px"><span style="font-size:12px;color:#82918d;font-weight:600" aria-label="App-Version 28">v28</span><span style="font-size:28px">🍏</span></div></header><section id="today"><div class="card"><div class="row"><button id="prev" aria-label="Vorheriger Tag">‹</button><input type="date" id="date" aria-label="Datum"><button id="next" aria-label="Nächster Tag">›</button></div><div class="muted">Aufgenommen</div><div class="total"><span id="total">0</span> <small>/<span id="totalGoal">2000</span> kcal</small></div><div class="progress" id="progress"><div class="fill" id="fill"></div></div><div class="row goal-status"><span id="status" class="good" role="status"></span><span class="muted" id="remaining"></span></div><div class="compare-numbers"><span class="burn-label">Verbraucht <span class="burn-value"><strong id="compareBurn">–</strong><button id="garminQuickSync" type="button" aria-label="Garmin-Daten aktualisieren" title="Garmin-Daten aktualisieren">↻</button></span></span><span>Differenz <strong id="calorieDifference" role="status">–</strong></span></div></div><div class="card"><h2>Mahlzeiten</h2><div id="meals"></div></div><div class="card"><div class="habit-head"><h2>Meine Tagesziele</h2><button type="button" id="editHabits" class="small-action" aria-expanded="false" aria-controls="habitSettings">Bearbeiten</button></div><div class="habit-list" id="habitChecks"></div><div id="habitSettings" class="hidden habit-settings"><div id="habitEditor"></div><button type="button" id="addHabit" class="small-action">+ Ziel hinzufügen</button></div></div></section><section id="more" class="hidden"><div class="card"><h2>Mehr</h2><p class="muted">Weitere Einstellungen und Datenverwaltung.</p></div><div class="card" id="garminCard"><div class="habit-head"><h2>Garmin Connect</h2><span class="subtle" id="garminDate"></span></div><p class="muted" id="garminStatus">Noch keine Garmin-Daten für diesen Tag geladen.</p><div class="actions"><button id="garminSync" type="button">↻ Garmin-Daten abrufen</button><button id="garminForget" type="button">Passwort löschen</button></div><p class="subtle" id="garminPasswordStatus">Das Garmin-Passwort wird nur lokal in diesem Browser auf diesem Gerät gespeichert. Es wird nicht in GitHub oder im Tagebuch-Backup abgelegt.</p></div><div class="card"><h2>Tagesziel</h2><div class="row"><label for="goal">Kalorienziel</label><input id="goal" type="number" min="1" step="1" inputmode="numeric" aria-label="Kalorienziel"></div></div><div class="card"><h2>Lokale Datensicherung</h2><div class="actions"><button id="backupToday" type="button">↓ Sicherung erstellen</button><button id="restoreToday" type="button">↑ Wiederherstellen</button><input type="file" accept="application/json,.json" id="importFile" class="hidden"></div></div></section><section id="history" class="hidden"><div class="card"><h2>Verlauf</h2><div class="actions"><button id="week" class="active">Letzte 7 Tage</button><button id="fortnight">Letzte 14 Tage</button><button id="month">Letzte 30 Tage</button></div><div class="chart-scroll" id="chartScroll"><svg class="chart" id="chart" role="img" aria-label="Kalorienverlauf"></svg></div><div id="averageCard" class="average-card good" role="status" aria-live="polite"><div id="averageLabel" class="average-label"></div><div class="average-value"><span id="averageValue">0</span> <small>kcal / Tag</small></div><div id="averageDetail" class="average-detail"></div></div></div><div class="card"><h2>Verbraucht</h2><div class="chart-scroll"><svg class="chart" id="compareChart" role="img" aria-label="Täglicher Vergleich von aufgenommenen und verbrauchten Kalorien"></svg></div><div class="chart-legend"><span><i class="intake-key"></i>Aufgenommen</span><span><i class="burn-key"></i>Verbraucht (Garmin)</span></div><div id="averageDifferenceCard" class="average-card good" role="status" aria-live="polite"><div id="averageDifferenceLabel" class="average-label"></div><div class="average-value"><span id="averageDifferenceValue">–</span> <small>kcal / Tag</small></div><div id="averageDifferenceDetail" class="average-detail"></div></div></div><div class="card" id="habitStatsSection"><h2>Meine Tagesziele im Verlauf</h2><div class="habit-stats" id="habitStats"></div></div></section></main><nav class="tabs" aria-label="Navigation"><div><button id="tabToday" class="active">Heute</button><button id="tabHistory">Statistik</button><button id="tabMore">Mehr</button></div></nav><script>
 const mealColors=['#f1b95e','#5b9dd6','#8d7ac7','#df8c9e'];const KEY='kalorien-tagebuch-v1',labels=['Frühstück','Mittagessen','Abendessen','Snacks'];let state;try{state=JSON.parse(localStorage.getItem(KEY))||{}}catch{state={}}if(!state.days||typeof state.days!=='object')state.days={};if(!Number.isFinite(Number(state.goal))||Number(state.goal)<=0)state.goal=2000;
 const defaultHabits=[{id:'softdrink',name:'Kein Softdrink',enabled:true},{id:'sweets',name:'Keine Süßigkeiten',enabled:true},{id:'coffee',name:'Kein Kaffee',enabled:true}];
@@ -132,101 +137,58 @@ function draw(){drawHabits(); $('date').value=chosen;$('goal').value=state.goal;
  const end=parse(iso(new Date())),days=[];
  for(let i=period-1;i>=0;i--){const dt=new Date(end);dt.setDate(end.getDate()-i);days.push(iso(dt))}
  const goal=Number(state.goal),values=days.map(sum),maxValue=Math.max(goal,...values,1),axisMax=Math.ceil(maxValue/250)*250;
- const rowHeight=43,left=68,plotWidth=224,right=58,top=14,bottom=12,width=left+plotWidth+right,height=top+days.length*rowHeight+bottom;
- const svg=$('chart'),scroll=$('chartScroll'),periodChanged=scroll.dataset.period!==String(period);
- svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('preserveAspectRatio','xMinYMin meet');svg.style.width='100%';svg.style.height='auto';svg.style.display='block';svg.replaceChildren();
+ const svg=$('chart'),scroll=$('chartScroll'),cell=Math.max(38,(scroll.clientWidth-48)/7),left=34,right=12,top=18,bottom=43,plotHeight=190,width=left+cell*days.length+right,height=top+plotHeight+bottom;
+ const periodChanged=scroll.dataset.period!==String(period);
+ svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('preserveAspectRatio','none');svg.style.width=width+'px';svg.style.height=height+'px';svg.style.maxWidth='none';svg.style.display='block';svg.replaceChildren();
  const NS='http://www.w3.org/2000/svg';
  function el(tag,attrs,text){const node=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>node.setAttribute(k,String(v)));if(text!==undefined)node.textContent=text;svg.append(node);return node}
- const x=n=>left+(n/axisMax)*plotWidth;
- const goalX=x(goal);
- el('line',{x1:goalX,y1:top-5,x2:goalX,y2:height-bottom,stroke:'#8073b6','stroke-width':2,'stroke-dasharray':'5 4'});
+ const y=n=>top+plotHeight-(n/axisMax)*plotHeight,goalY=y(goal);
+ [0,.25,.5,.75,1].forEach(t=>{const val=axisMax*t,yy=y(val);el('line',{x1:left,y1:yy,x2:width-right,y2:yy,stroke:'#e7ece9','stroke-width':1});el('text',{x:left-5,y:yy+3,'text-anchor':'end',fill:'#81918b','font-size':9},val>=1000?(val/1000).toFixed(val%1000?1:0)+'k':Math.round(val))});
+ el('line',{x1:left,y1:goalY,x2:width-right,y2:goalY,stroke:'#8073b6','stroke-width':1.5,'stroke-dasharray':'4 3'});
  days.forEach((s,i)=>{
-  const n=values[i],has=labels.some(k=>day(s)[k]!==undefined),y=top+i*rowHeight,d=parse(s),isToday=s===iso(new Date());
-  if(isToday)el('rect',{x:0,y:y-3,width:width,height:rowHeight-1,rx:7,fill:'#f0edf8'});
-  el('text',{x:4,y:y+17,'text-anchor':'start',fill:isToday?'#6957a1':'#657e74','font-size':11,'font-weight':isToday?750:600},`${['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]} ${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.`);
-  if(has&&n>0){
-   let running=0;
-   labels.forEach((meal,j)=>{const amount=Math.max(0,Number(day(s)[meal])||0);if(!amount)return;const segmentWidth=amount/axisMax*plotWidth;const rect=el('rect',{x:x(running),y:y+5,width:Math.max(1,segmentWidth),height:17,rx:3,fill:mealColors[j]});const tip=document.createElementNS(NS,'title');tip.textContent=s+' · '+meal+': '+fmt(amount)+' kcal';rect.append(tip);running+=amount});
-   el('text',{x:width-5,y:y+18,'text-anchor':'end',fill:'#40564e','font-size':10,'font-weight':650},fmt(n));
-  }else{
-   el('text',{x:width-5,y:y+18,'text-anchor':'end',fill:'#9aa9a2','font-size':10},has?'0 kcal':'kein Eintrag');
-  }
-  if(i<days.length-1)el('line',{x1:0,y1:y+rowHeight-2,x2:width,y2:y+rowHeight-2,stroke:'#edf1ee','stroke-width':1});
+  const x=left+i*cell,cx=x+cell/2,d=parse(s),isToday=s===iso(new Date()),n=values[i],has=labels.some(k=>day(s)[k]!==undefined);
+  if(isToday)el('rect',{x:x+1,y:top-5,width:cell-2,height:plotHeight+bottom+8,rx:6,fill:'#f0edf8'});
+  if(has&&n>0){let running=0;labels.forEach((meal,j)=>{const amount=Math.max(0,Number(day(s)[meal])||0);if(!amount)return;const h=amount/axisMax*plotHeight;const rect=el('rect',{x:cx-cell*.29,y:y(running+amount),width:cell*.58,height:Math.max(1,h),rx:3,fill:mealColors[j]});const tip=document.createElementNS(NS,'title');tip.textContent=s+' · '+meal+': '+fmt(amount)+' kcal';rect.append(tip);running+=amount})}
+  el('text',{x:cx,y:Math.max(top+10,y(n)-5),'text-anchor':'middle',fill:'#40564e','font-size':9,'font-weight':650},has?fmt(n):'–');
+  el('text',{x:cx,y:top+plotHeight+16,'text-anchor':'middle',fill:isToday?'#6957a1':'#657e74','font-size':9,'font-weight':isToday?750:600},['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]);
+  el('text',{x:cx,y:top+plotHeight+29,'text-anchor':'middle',fill:isToday?'#6957a1':'#657e74','font-size':9,'font-weight':isToday?750:600},String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.');
  });
- el('text',{x:goalX,y:10,'text-anchor':'middle',fill:'#8073b6','font-size':9,'font-weight':700},'Ziel');
- svg.setAttribute('aria-label',`Kalorienaufnahme über ${period} Tage als waagerechte Balken. Tagesziel ${fmt(goal)} kcal.`);
- if(periodChanged){scroll.dataset.period=String(period);scroll.scrollTop=scroll.scrollHeight;}
- const average=values.reduce((a,b)=>a+b,0)/period;
- const avgOk=average<=goal;
- $('averageCard').className='average-card '+(avgOk?'good':'bad');
- $('averageLabel').textContent=`Durchschnitt der letzten ${period} Tage`;
- $('averageValue').textContent=fmt(average);
+ el('text',{x:width-right,y:Math.max(10,goalY-4),'text-anchor':'end',fill:'#8073b6','font-size':9,'font-weight':700},'Ziel');
+ svg.setAttribute('aria-label',`Kalorienaufnahme als Hochformat-Balkendiagramm für ${period} Tage. Sieben Tage gleichzeitig sichtbar, weitere Tage horizontal scrollbar. Tagesziel ${fmt(goal)} kcal.`);
+ if(periodChanged){scroll.dataset.period=String(period);scroll.scrollLeft=scroll.scrollWidth}
+ const average=values.reduce((a,b)=>a+b,0)/period,avgOk=average<=goal;
+ $('averageCard').className='average-card '+(avgOk?'good':'bad');$('averageLabel').textContent=`Durchschnitt der letzten ${period} Tage`;$('averageValue').textContent=fmt(average);
  $('averageDetail').textContent=avgOk?`✓ ${fmt(goal-average)} kcal unter dem Tagesziel`:`✕ ${fmt(average-goal)} kcal über dem Tagesziel`;
- drawComparisonChart(days); drawHabitStats(days);
-
- 
+ drawComparisonChart(days);drawHabitStats(days);
  $('week').classList.toggle('active',period===7);$('fortnight').classList.toggle('active',period===14);$('month').classList.toggle('active',period===30);
-
 }
-
 function drawComparisonChart(days){
  const svg=$('compareChart');if(!svg)return;
- const scroll=svg.parentElement;const periodChanged=scroll.dataset.period!==String(days.length);
- const intake=days.map(sum),burn=days.map(s=>Number(day(s).garmin?.totalKilocalories)||0);
- const maxValue=Math.max(1000,...intake,...burn);
- const axisMax=Math.ceil(maxValue/500)*500;
- const width=360,left=78,plotWidth=200,right=82,rowHeight=49,top=18,bottom=28;
- const height=top+days.length*rowHeight+bottom;
- svg.setAttribute('viewBox',`0 0 ${width} ${height}`);
- svg.setAttribute('preserveAspectRatio','xMidYMin meet');
- svg.style.width='100%';svg.style.height='auto';svg.style.display='block';
- svg.replaceChildren();
+ const scroll=svg.parentElement,periodChanged=scroll.dataset.period!==String(days.length);
+ const intake=days.map(sum),burn=days.map(s=>Number(day(s).garmin?.totalKilocalories)||0),maxValue=Math.max(1000,...intake,...burn),axisMax=Math.ceil(maxValue/500)*500;
+ const cell=Math.max(38,(scroll.clientWidth-48)/7),left=34,right=12,top=18,plotHeight=190,bottom=43,width=left+cell*days.length+right,height=top+plotHeight+bottom;
+ svg.setAttribute('viewBox',`0 0 ${width} ${height}`);svg.setAttribute('preserveAspectRatio','none');svg.style.width=width+'px';svg.style.height=height+'px';svg.style.maxWidth='none';svg.style.display='block';svg.replaceChildren();
  const NS='http://www.w3.org/2000/svg';
  function el(tag,attrs,text){const node=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>node.setAttribute(k,String(v)));if(text!==undefined)node.textContent=text;svg.append(node);return node}
- const x=n=>left+(n/axisMax)*plotWidth;
- [0,1000,2000,3000].filter(v=>v<=axisMax).forEach(v=>{
-  el('line',{x1:x(v),y1:top-5,x2:x(v),y2:height-bottom+1,stroke:'#e7ece9','stroke-width':1});
-  el('text',{x:x(v),y:height-7,'text-anchor':'middle',fill:'#81918b','font-size':10},v===0?'0':(v/1000)+'k');
- });
+ const y=n=>top+plotHeight-(n/axisMax)*plotHeight;
+ [0,.25,.5,.75,1].forEach(t=>{const val=axisMax*t,yy=y(val);el('line',{x1:left,y1:yy,x2:width-right,y2:yy,stroke:'#e7ece9','stroke-width':1});el('text',{x:left-5,y:yy+3,'text-anchor':'end',fill:'#81918b','font-size':9},val>=1000?(val/1000).toFixed(val%1000?1:0)+'k':Math.round(val))});
  days.forEach((s,i)=>{
-  const y=top+i*rowHeight;
-  const d=parse(s),isToday=s===iso(new Date());
-  const dateLabel=`${['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]} ${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.`;
-  if(isToday)el('rect',{x:0,y:y-3,width:width,height:rowHeight-1,rx:7,fill:'#f0edf8'});
-  el('text',{x:4,y:y+24,'text-anchor':'start',fill:isToday?'#6957a1':'#657e74','font-size':10,'font-weight':isToday?750:600},dateLabel);
-  const items=[
-   {value:intake[i],label:'A',color:'#e6ad4d',yy:y+5,title:'Aufgenommen'},
-   {value:burn[i],label:'V',color:'#4388bd',yy:y+25,title:'Verbraucht'}
-  ];
-  items.forEach(item=>{
-   el('text',{x:65,y:item.yy+9,'text-anchor':'middle',fill:item.color,'font-size':10,'font-weight':750},item.label);
-   if(item.value>0){
-    const barWidth=Math.max(2,(item.value/axisMax)*plotWidth);
-    const rect=el('rect',{x:left,y:item.yy,width:barWidth,height:12,rx:4,fill:item.color});
-    const title=document.createElementNS(NS,'title');title.textContent=`${s} · ${item.title}: ${fmt(item.value)} kcal`;rect.append(title);
-    el('text',{x:Math.min(width-3,left+barWidth+5),y:item.yy+10,'text-anchor':'start',fill:'#40564e','font-size':10,'font-weight':650},fmt(item.value));
-   }else{
-    el('text',{x:left+4,y:item.yy+10,fill:'#9aa9a2','font-size':10},item.title==='Verbraucht'?'keine Garmin-Daten':'0');
-   }
+  const x=left+i*cell,cx=x+cell/2,d=parse(s),isToday=s===iso(new Date());
+  if(isToday)el('rect',{x:x+1,y:top-5,width:cell-2,height:plotHeight+bottom+8,rx:6,fill:'#f0edf8'});
+  [{value:intake[i],color:'#e6ad4d',offset:-cell*.16,title:'Aufgenommen'},{value:burn[i],color:'#4388bd',offset:cell*.16,title:'Verbraucht'}].forEach(item=>{
+   const barW=Math.min(13,cell*.27),h=item.value/axisMax*plotHeight,rect=el('rect',{x:cx+item.offset-barW/2,y:y(item.value),width:barW,height:Math.max(1,h),rx:3,fill:item.color});
+   const tip=document.createElementNS(NS,'title');tip.textContent=`${s} · ${item.title}: ${fmt(item.value)} kcal`;rect.append(tip);
   });
-  if(i<days.length-1)el('line',{x1:0,y1:y+rowHeight-2,x2:width,y2:y+rowHeight-2,stroke:'#edf1ee','stroke-width':1});
+  el('text',{x:cx,y:top+plotHeight+16,'text-anchor':'middle',fill:isToday?'#6957a1':'#657e74','font-size':9,'font-weight':isToday?750:600},['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]);
+  el('text',{x:cx,y:top+plotHeight+29,'text-anchor':'middle',fill:isToday?'#6957a1':'#657e74','font-size':9,'font-weight':isToday?750:600},String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.');
  });
- svg.setAttribute('aria-label',`Aufnahme und Garmin-Verbrauch pro Tag über ${days.length} Tage. Jeder Tag zeigt zwei waagerechte Balken mit kcal-Werten.`);
- if(periodChanged){scroll.dataset.period=String(days.length);scroll.scrollTop=scroll.scrollHeight;}
+ svg.setAttribute('aria-label',`Aufnahme und Garmin-Verbrauch als Hochformat-Balkendiagramm für ${days.length} Tage; sieben Tage gleichzeitig sichtbar, weitere Tage horizontal scrollbar.`);
+ if(periodChanged){scroll.dataset.period=String(days.length);scroll.scrollLeft=scroll.scrollWidth}
  const validDays=days.filter(s=>day(s).garmin&&Number.isFinite(Number(day(s).garmin.totalKilocalories)));
- const averageDifference=validDays.length?validDays.reduce((total,s)=>total+sum(s)-Number(day(s).garmin.totalKilocalories),0)/validDays.length:null;
- const differenceCard=$('averageDifferenceCard');
+ const averageDifference=validDays.length?validDays.reduce((total,s)=>total+sum(s)-Number(day(s).garmin.totalKilocalories),0)/validDays.length:null,differenceCard=$('averageDifferenceCard');
  $('averageDifferenceLabel').textContent=`Durchschnitt der letzten ${days.length} Tage`;
- if(averageDifference===null){
-  differenceCard.className='average-card good';
-  $('averageDifferenceValue').textContent='–';
-  $('averageDifferenceDetail').textContent='Noch keine Garmin-Daten für diesen Zeitraum';
- }else{
-  const over=averageDifference>0,under=averageDifference<0;
-  differenceCard.className='average-card '+(over?'bad':'good');
-  $('averageDifferenceValue').textContent=(over?'+':'')+fmt(averageDifference);
-  $('averageDifferenceDetail').textContent=over?'✕ Im Durchschnitt mehr aufgenommen als verbraucht':under?'✓ Im Durchschnitt weniger aufgenommen als verbraucht':'✓ Aufnahme und Verbrauch im Durchschnitt ausgeglichen';
- }
+ if(averageDifference===null){differenceCard.className='average-card good';$('averageDifferenceValue').textContent='–';$('averageDifferenceDetail').textContent='Noch keine Garmin-Daten für diesen Zeitraum'}
+ else{const over=averageDifference>0,under=averageDifference<0;differenceCard.className='average-card '+(over?'bad':'good');$('averageDifferenceValue').textContent=(over?'+':'')+fmt(averageDifference);$('averageDifferenceDetail').textContent=over?'✕ Im Durchschnitt mehr aufgenommen als verbraucht':under?'✓ Im Durchschnitt weniger aufgenommen als verbraucht':'✓ Aufnahme und Verbrauch im Durchschnitt ausgeglichen'}
 }
 function shift(n){let d=parse(chosen);d.setDate(d.getDate()+n);chosen=iso(d);draw();history()}$('prev').onclick=()=>shift(-1);$('next').onclick=()=>shift(1);$('date').onchange=e=>{if(e.target.value){chosen=e.target.value;draw();history()}};$('goal').onchange=e=>{let n=Math.round(Number(e.target.value));if(n>0){state.goal=n;save()}draw();history()};function tab(which){let h=which==='history',m=which==='more';$('today').classList.toggle('hidden',h||m);$('history').classList.toggle('hidden',!h);$('more').classList.toggle('hidden',!m);$('tabToday').classList.toggle('active',!h&&!m);$('tabHistory').classList.toggle('active',h);$('tabMore').classList.toggle('active',m);if(h)history()}$('tabToday').onclick=()=>tab('today');$('tabHistory').onclick=()=>tab('history');$('tabMore').onclick=()=>tab('more');$('week').onclick=()=>{period=7;history()};$('fortnight').onclick=()=>{period=14;history()};$('month').onclick=()=>{period=30;history()};function exportBackup(){let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='kalorien-sicherung-'+iso(new Date())+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)}$('backupToday').onclick=exportBackup;function openRestore(){$('importFile').click()}$('restoreToday').onclick=openRestore;$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let obj=JSON.parse(await f.text());if(!obj||!obj.days||typeof obj.days!=='object'||Array.isArray(obj.days)||!Number.isFinite(Number(obj.goal))||Number(obj.goal)<=0)throw Error();for(const [date,meals] of Object.entries(obj.days)){if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!meals||typeof meals!=='object'||Array.isArray(meals))throw Error();for(const [key,value] of Object.entries(meals)){if(key==='garmin'){if(!value||typeof value!=='object'||Array.isArray(value)||!['activeKilocalories','restingKilocalories','totalKilocalories'].every(k=>Number.isFinite(Number(value[k]))))throw Error()}else if(key==='habits'){if(!value||typeof value!=='object'||Array.isArray(value))throw Error();for(const [habitKey,checked] of Object.entries(value)){if(!/^[a-z0-9_-]{1,40}$/i.test(habitKey)||typeof checked!=='boolean')throw Error()}}else if(!labels.includes(key)||!Number.isFinite(Number(value))||Number(value)<0)throw Error()}}if(!confirm('Vorhandene Daten durch das Backup ersetzen?'))return;state={days:obj.days,goal:Number(obj.goal),habitConfig:cleanHabitConfig(obj.habitConfig)};save();draw();renderHabitEditor();history();alert('Sicherung erfolgreich wiederhergestellt.')}catch{alert('Ungültige Backup-Datei')}e.target.value=''};draw();if(getGarminPassword())syncGarmin();if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script></body></html>
