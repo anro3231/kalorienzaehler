@@ -76,7 +76,6 @@ function renderGarmin(){
  $('garminIntake').textContent=fmt(intake)+' kcal';
  $('garminBalance').textContent=(balance>0?'+':'')+fmt(balance)+' kcal';
  $('garminBalance').className=balance>0?'bad':'good';
- totals();
 }
 async function syncGarmin(){
  const password=prompt('Bitte deinen Garmin-App-Zugriffscode eingeben:');
@@ -88,7 +87,7 @@ async function syncGarmin(){
   if(!response.ok)throw new Error(result.error||'Garmin-Abruf fehlgeschlagen.');
   if(result.noData)throw new Error('Für '+chosen+' hat Garmin noch keine Tagesdaten bereitgestellt. Bitte Uhr synchronisieren und erneut versuchen.');
   const d={...day(chosen),garmin:{activeKilocalories:result.activeKilocalories,restingKilocalories:result.restingKilocalories,totalKilocalories:result.totalKilocalories,updatedAt:result.updatedAt}};
-  state.days[chosen]=d;save();renderGarmin();
+  state.days[chosen]=d;save();renderGarmin();totals();
  }catch(error){status.textContent=error.message||'Garmin-Abruf fehlgeschlagen.';$('garminValues').classList.add('hidden')}
  finally{button.disabled=false;button.textContent='↻ Garmin-Daten abrufen'}
 }
