@@ -193,6 +193,11 @@ function drawComparisonChart(days){
  [0,.25,.5,.75,1].forEach(t=>{const val=axisMax*t,yy=y(val);el('line',{x1:left,y1:yy,x2:width-right,y2:yy,stroke:'#e7ece9','stroke-width':1});el('text',{x:left-5,y:yy+3,'text-anchor':'end',fill:'#81918b','font-size':9},val>=1000?(val/1000).toFixed(val%1000?1:0)+'k':Math.round(val))});
  days.forEach((date,i)=>{const cx=left+i*cell+cell/2,d=parse(date),isToday=date===iso(new Date());if(isToday)el('rect',{x:left+i*cell+1,y:top-5,width:cell-2,height:plotHeight+bottom+8,rx:6,fill:'#f0edf8'});
   [{value:intake[i],color:'#e6ad4d',offset:-cell*.16,title:'Aufgenommen'},{value:burn[i],color:'#4388bd',offset:cell*.16,title:'Verbraucht'}].forEach(item=>{const barW=Math.min(13,cell*.27),rect=el('rect',{x:cx+item.offset-barW/2,y:y(item.value),width:barW,height:Math.max(1,item.value/axisMax*plotHeight),rx:3,fill:item.color});const tip=document.createElementNS(NS,'title');tip.textContent=date+' · '+item.title+': '+fmt(item.value)+' kcal';rect.append(tip)});
+  const hasBurn=!!day(date).garmin&&Number.isFinite(Number(day(date).garmin.totalKilocalories));
+  const difference=intake[i]-burn[i];
+  const diffLabel=hasBurn?(difference>0?'+':'')+fmt(difference):'–';
+  const diffColor=!hasBurn?'#82918d':difference>0?'#c96567':difference<0?'#238269':'#657e74';
+  el('text',{x:cx,y:Math.max(10,y(Math.max(intake[i],burn[i]))-8),'text-anchor':'middle',fill:diffColor,'font-size':9,'font-weight':750},diffLabel);
   el('text',{x:cx,y:top+plotHeight+16,'text-anchor':'middle',fill:isToday?'#6957a1':'#657e74','font-size':9,'font-weight':isToday?750:600},['So','Mo','Di','Mi','Do','Fr','Sa'][d.getDay()]);
   el('text',{x:cx,y:top+plotHeight+29,'text-anchor':'middle',fill:isToday?'#6957a1':'#657e74','font-size':9,'font-weight':isToday?750:600},String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.');
  });
